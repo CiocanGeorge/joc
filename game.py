@@ -1,6 +1,7 @@
-"Imports"
+#"Imports"
 import random
 import pygame
+import math
 
 # initializare pygame
 pygame.init()
@@ -10,7 +11,6 @@ screen = pygame.display.set_mode((800, 600))
 
 # backgournd
 background = pygame.image.load("background.jpg")
-
 
 # titlu si logo
 pygame.display.set_caption("Invazia Spatiala")
@@ -28,6 +28,8 @@ playerY_change = 0
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
+#score
+score=0
 
 # inamic
 enemyImg = pygame.image.load("enemy.png")
@@ -46,7 +48,7 @@ def enemy(x, y):
 # ready - you can't see the bullet on the screen
 # fire  -the bullet is currently moving
 bulletImg = pygame.image.load("bullet.png")
-bulletX =  0
+bulletX = 0
 bulletY = 0
 bulletX_change = 0
 bulletY_change = 10
@@ -55,21 +57,30 @@ bulletY_change = 10
 def fire_bullet(x, y):
     global bullet_state
     bullet_state = "fire"
-    screen.blit(bulletImg, (x+16, y+10))
-    
-def updatePlayer(changeX,changeY):
-    global playerX 
+    screen.blit(bulletImg, (x + 16, y + 10))
+
+
+def updatePlayer(changeX, changeY):
+    global playerX
     global playerY
     playerX += changeX
     playerY += changeY
-    
-def updatePlayer2(plX,plY,changeX,changeY):
-    plX = plX+changeX
-    plY = plY+changeY
+
+
+def updatePlayer2(plX, plY, changeX, changeY):
+    plX = plX + changeX
+    plY = plY + changeY
     return (plX, plY)
-    
-def colision(bullX,bullY,eneX,eneY):
-    
+
+def isColision(eneX,eneY,bullX,bullY):
+    distanta=math.sqrt(math.pow((eneX-bullX),2) + (math.pow((eneY-bullY),2)))
+    if distanta<27:
+        return True
+    else:
+        return False
+
+
+
 
 # game loop
 runnig = True
@@ -84,7 +95,7 @@ while runnig:
             runnig = False
 
         # miscare player
-            # stanga dreapta
+        # stanga dreapta
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 playerX_change = -5
@@ -109,8 +120,8 @@ while runnig:
                 playerY_change = 0
 
     # update pozitie
-    #updatePlayer(playerX_change,playerY_change)
-    playerX,playerY = updatePlayer2(playerX,playerY,playerX_change, playerY_change)
+    updatePlayer(playerX_change,playerY_change)
+    #playerX, playerY = updatePlayer2(playerX, playerY, playerX_change, playerY_change)
 
     # limite
     if playerX <= 5:
@@ -134,7 +145,7 @@ while runnig:
 
     # bullet movement
     if bulletY <= 0:
-        #update position needed
+        # update position needed
         bulletY = playerY
         bullet_state = "ready"
 
@@ -142,7 +153,19 @@ while runnig:
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
 
+    #colision
+    colision=isColision(enemyX,enemyY,bulletX,bulletY)
+    if colision:
+
+        bullet_state="ready"
+        score+=1
+        print(score)
+        enemyX = random.randint(10, 780)
+
+
+
     player(playerX, playerY)
     enemy(enemyX, enemyY)
+
 
     pygame.display.update()
