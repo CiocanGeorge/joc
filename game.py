@@ -5,7 +5,12 @@ import math
 from player import *
 from enemy import *
 
+
 # initializare pygame
+from Python.joc.enemy import Enemy
+from Python.joc.joc.bullet import Bullet
+from Python.joc.player import Player
+
 pygame.init()
 
 # creare screen
@@ -60,6 +65,7 @@ bulletY = 0
 bulletX_change = 0
 bulletY_change = 10
 
+bullet01=Bullet(390,480,bulletImg,screen,pygame)
 
 def fire_bullet(x, y):
     global bullet_state
@@ -126,9 +132,10 @@ while runnig:
         player1.rect.y += 5
     if keys_pressed[pygame.K_SPACE]:
          if bullet_state is "ready":
-            bulletX = player1.rect.x
-            bulletY = player1.rect.y
-            fire_bullet(player1.rect.x,player1.rect.y)
+            #bulletX = player1.rect.x
+            #bulletY = player1.rect.y
+            bullet01.move()
+            #fire_bullet(player1.rect.x,player1.rect.y)
     #new
    # player1.move(playerX_change,playerY_change)
     player1.rect.clamp_ip(screen_rect)
@@ -153,7 +160,7 @@ while runnig:
         bullet_state = "ready"
 
     if bullet_state is "fire":
-        fire_bullet(bulletX, bulletY)
+        bullet01.move()
         bulletY -= bulletY_change
 
     #colision
@@ -169,5 +176,6 @@ while runnig:
     #enemy(enemyX, enemyY)
     player1.draw()
     enemy01.draw()
+    bullet01.draw()
     pygame.display.flip()
     pygame.display.update()
