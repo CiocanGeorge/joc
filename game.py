@@ -3,6 +3,7 @@ import random
 import pygame
 import math
 from player import *
+from enemy import *
 
 # initializare pygame
 pygame.init()
@@ -25,8 +26,9 @@ playerY = 480
 playerX_change = 0
 playerY_change = 0
 
-#new
+#new player
 player1 = Player(390,480,playerImg,screen,pygame)
+
 
 
 #score
@@ -41,10 +43,12 @@ enemyY_change = 25
 bullet_state = "ready"
 
 
+#new enemy
+enemy01 =  Enemy(550,50,enemyImg,screen,pygame)
 
 
-def enemy(x, y):
-    screen.blit(enemyImg, (x, y))
+#def enemy(x, y):
+#    screen.blit(enemyImg, (x, y))
 
 
 # bullet
@@ -83,8 +87,7 @@ while runnig:
         if event.type == pygame.QUIT:
             runnig = False
         # miscare player
-        # stanga dreapta
-        
+        # stanga dreapta 
         # if event.type == pygame.KEYDOWN:
         #     if event.key == pygame.K_LEFT:
         #         playerX_change = -5
@@ -131,14 +134,18 @@ while runnig:
     player1.rect.clamp_ip(screen_rect)
 
     # miscare inamic
-    enemyX += enemyX_change
+    #enemyX += enemyX_change
+    #enemy01.move(enemyX_change,enemyY_change)
+    enemy01.move()
+    #enemy01.rect.x += 1
+    #print(enemy01.rect.x)
 
-    if enemyX <= 0:
-        enemyY += enemyY_change
-        enemyX_change = 0.5
-    elif enemyX >= 730:
-        enemyY += enemyY_change
-        enemyX_change = -0.5
+    #if enemyX <= 0:
+    #    enemyY += enemyY_change
+    #    enemyX_change = 0.5
+    #elif enemyX >= 730:
+    #    enemyY += enemyY_change
+    #    enemyX_change = -0.5
 
     # bullet movement
     if bulletY <= 0:
@@ -159,7 +166,8 @@ while runnig:
 
 
     #player(playerX, playerY)
-    enemy(enemyX, enemyY)
+    #enemy(enemyX, enemyY)
     player1.draw()
+    enemy01.draw()
     pygame.display.flip()
     pygame.display.update()
