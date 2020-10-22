@@ -14,8 +14,8 @@ class Bullet:
         self.pygame.draw.rect(self.screen, (255,0,0), self.hitbox,2)
     def move(self):
         if self.state is "fire":
-            self.rect.y  =  self.rect.y-1
-            print(self.rect.y)
+            self.rect.y  =  self.rect.y-3
+            #print(self.rect.y)
             if self.rect.y < 10:
                 self.state = "ready"
     def  setBullet(self,x,y):

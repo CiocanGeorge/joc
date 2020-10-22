@@ -1,5 +1,7 @@
 #"Imports"
 import random
+
+import bullet
 import pygame
 import math
 from player import *
@@ -16,6 +18,8 @@ pygame.init()
 
 # creare screen
 screen = pygame.display.set_mode((800, 600))
+clock = pygame.time.Clock()
+previous_time = pygame.time.get_ticks()
 
 # backgournd
 background = pygame.image.load("background.jpg")
@@ -47,6 +51,7 @@ enemyY = 50
 enemyX_change = 0.5
 enemyY_change = 25
 bullet_state = "ready"
+contor=0
 
 
 #new enemy
@@ -66,7 +71,11 @@ bulletY = 0
 bulletX_change = 0
 bulletY_change = 10
 
+bullet1=Bullet(player1.rect.x,player1.rect.y,bulletImg,screen,pygame)
+bullet2=Bullet(player1.rect.x,player1.rect.y,bulletImg,screen,pygame)
+bullets=[bullet1,bullet2]
 bullet01=Bullet(player1.rect.x,player1.rect.y,bulletImg,screen,pygame)
+
 
 def fire_bullet(x, y):
     global bullet_state
@@ -108,12 +117,45 @@ while runnig:
     if keys_pressed[pygame.K_DOWN]:
         player1.rect.y += 5
     if keys_pressed[pygame.K_SPACE]:
-        bullet01.state = "fire"
-        bullet01.setBullet(player1.rect.x,player1.rect.y)
+        current_time = pygame.time.get_ticks()
+    #if event.type == pygame.KEYDOWN:
+        #if event.key == pygame.K_SPACE:
+
+        #if bullet01.state is not "fire":
+        #    bullet01.state = "fire"
+        #    bullet01.setBullet(player1.rect.x,player1.rect.y)
+        if contor is 2:
+            contor=0
+        bull=bullets[contor]
+        print(bull.state)
+        if bull.state is not "fire" and (current_time - previous_time > 1000):
+            previous_time = current_time
+            bull.state="fire"
+            bull.setBullet(player1.rect.x,player1.rect.y)
+            #bullets.pop()
+            print(contor)
+            contor+=1
+
+
+
+
+
+
+
         
-    if(bullet01.state is "fire"):
-        bullet01.draw()
-        bullet01.move()
+    #if(bullet01.state is "fire"):
+    #    bullet01.draw()
+    #    bullet01.move()
+    for bull in bullets:
+        if bull.state is "fire":
+            bull.draw()
+            bull.move()
+
+
+
+
+
+
         
     player1.rect.clamp_ip(screen_rect)
 
