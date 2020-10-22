@@ -4,12 +4,13 @@ import pygame
 import math
 from player import *
 from enemy import *
+from bullet import *
 
 
 # initializare pygame
-from Python.joc.enemy import Enemy
-from Python.joc.joc.bullet import Bullet
-from Python.joc.player import Player
+#from Python.joc.enemy import Enemy
+#from Python.joc.joc.bullet import Bullet
+#from Python.joc.player import Player
 
 pygame.init()
 
@@ -65,7 +66,7 @@ bulletY = 0
 bulletX_change = 0
 bulletY_change = 10
 
-bullet01=Bullet(390,480,bulletImg,screen,pygame)
+bullet01=Bullet(player1.rect.x,player1.rect.y,bulletImg,screen,pygame)
 
 def fire_bullet(x, y):
     global bullet_state
@@ -92,30 +93,6 @@ while runnig:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             runnig = False
-        # miscare player
-        # stanga dreapta 
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_LEFT:
-        #         playerX_change = -5
-        #     if event.key == pygame.K_RIGHT:
-        #         playerX_change = 5
-        #     if event.key == pygame.K_SPACE:
-        #         if bullet_state is "ready":
-        #             bulletX = player1.rect.x
-        #             bulletY = player1.rect.y
-        #             fire_bullet(player1.rect.x,player1.rect.y)
-        # if event.type == pygame.KEYUP:
-        #     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-        #        playerX_change = 0
-        #     # sus jos
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_UP:
-        #         playerY_change = -5
-        #     if event.key == pygame.K_DOWN:
-        #         playerY_change = 5
-        # if event.type == pygame.KEYUP:
-        #     if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-        #         playerY_change = 0
 #stackoverflow
     keys_pressed = pygame.key.get_pressed()
 
@@ -131,28 +108,16 @@ while runnig:
     if keys_pressed[pygame.K_DOWN]:
         player1.rect.y += 5
     if keys_pressed[pygame.K_SPACE]:
-         if bullet_state is "ready":
-            #bulletX = player1.rect.x
-            #bulletY = player1.rect.y
-            bullet01.move()
-            #fire_bullet(player1.rect.x,player1.rect.y)
-    #new
-   # player1.move(playerX_change,playerY_change)
+        bullet01.state = "fire"
+        bullet01.setBullet(player1.rect.x,player1.rect.y)
+        
+    if(bullet01.state is "fire"):
+        bullet01.draw()
+        bullet01.move()
+        
     player1.rect.clamp_ip(screen_rect)
 
-    # miscare inamic
-    #enemyX += enemyX_change
-    #enemy01.move(enemyX_change,enemyY_change)
     enemy01.move()
-    #enemy01.rect.x += 1
-    #print(enemy01.rect.x)
-
-    #if enemyX <= 0:
-    #    enemyY += enemyY_change
-    #    enemyX_change = 0.5
-    #elif enemyX >= 730:
-    #    enemyY += enemyY_change
-    #    enemyX_change = -0.5
 
     # bullet movement
     if bulletY <= 0:
@@ -160,7 +125,7 @@ while runnig:
         bullet_state = "ready"
 
     if bullet_state is "fire":
-        bullet01.move()
+        #bullet01.move()
         bulletY -= bulletY_change
 
     #colision
@@ -170,12 +135,8 @@ while runnig:
         score+=1
         enemyX = random.randint(10, 780)
 
-
-
-    #player(playerX, playerY)
-    #enemy(enemyX, enemyY)
     player1.draw()
     enemy01.draw()
-    bullet01.draw()
+    #bullet01.draw()
     pygame.display.flip()
     pygame.display.update()
