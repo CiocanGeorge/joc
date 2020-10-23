@@ -15,14 +15,10 @@ class Bullet:
     def move(self):
         if self.state is "fire":
             self.rect.y  =  self.rect.y-3
-            #print(self.rect.y)
             if self.rect.y < 10:
                 self.state = "ready"
     def  setBullet(self,x,y):
         self.rect.x = x+18
         self.rect.y = y
-
-
-
-    def checkCollision(self,bulletX,bulletY):
-       return self.rect.collidedict(bulletX,bulletY)
+    def checkCollision(self,player1):
+       return self.rect.collidedict(player1.rect.x,player1.rect.y)
