@@ -4,6 +4,12 @@ from player import *
 from enemy import *
 
 pygame.init()
+pygame.font.init()
+
+#score
+myfont = pygame.font.SysFont('Comic Sans MS', 16)
+textsurface = myfont.render('text', False, (255, 0, 0))
+
 
 # creare screen
 screen = pygame.display.set_mode((800, 600))
@@ -31,6 +37,7 @@ while runnig:
     screen.fill((0, 0, 0))
     # background image
     screen.blit(background, (0, 0))
+    screen.blit(textsurface, (0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
