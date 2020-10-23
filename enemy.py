@@ -1,7 +1,7 @@
 import math
 class Enemy:
-    def __init__(self,x,y,image,screen,pygame):
-        self.image = image
+    def __init__(self,x,y,screen,pygame):
+        self.image = pygame.image.load("enemy.png")
         self.screen =  screen
         self.pygame = pygame
         self.rect =  pygame.Rect(x,y,33,30)
@@ -23,3 +23,8 @@ class Enemy:
         self.rect.x += self.enemyX_change
     def checkCollision(self,bulletX,bulletY):
        return self.rect.collidedict(bulletX,bulletY)
+
+    def reset(self,isHit):
+        if isHit is True:
+            #enemy01 = Enemy(550, 50,  screen, pygame)
+            self.rect=self.pygame.Rect(550,50,33,30)

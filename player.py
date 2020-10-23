@@ -1,8 +1,8 @@
 from bullet import *
 from enemy import *
 class Player:
-    def __init__(self,x,y,image,screen,pygame):
-        self.image = image
+    def __init__(self,x,y,screen,pygame):
+        self.image = pygame.image.load("player.png")
         self.screen = screen
         self.pygame = pygame
         self.rect = pygame.Rect(x, y, 38,38)
@@ -20,7 +20,7 @@ class Player:
         self.pygame.draw.rect(self.screen, (255,0,0), self.hitbox,2)
         #test bullet
         for bull in self.bullets:
-            if bull.state is "fire":
+            if bull.state == "fire":
                 bull.draw()
                 bull.move()
     def move(self,keys_pressed,screen_rect):
@@ -41,19 +41,18 @@ class Player:
     def pewpew(self,keys_pressed):
         if keys_pressed[self.pygame.K_SPACE]:
             current_time = self.pygame.time.get_ticks()
-            if self.contor is 2:
+            if self.contor == 2:
                 self.contor=0
             bull=self.bullets[self.contor]
-            if bull.state is not "fire" and (current_time - self.previous_time > 380):
+            if bull.state != "fire" and (current_time - self.previous_time > 380):
                 self.previous_time = current_time
                 bull.state="fire"
                 bull.setBullet(self.rect.x,self.rect.y)
                 self.contor+=1
     def collision(self,enemy):
          for bull in self.bullets:
-            if bull.state is "fire":
-                if bull.rect.collidepoint(enemy.rect.x,enemy.rect.y):
+            if bull.state == "fire":
+                #if bull.rect.collidepoint(enemy.rect.x,enemy.rect.y):
+                if bull.rect.colliderect(enemy.rect):
                     bull.state="ready"
                     return True
-                    #print("headshot!!")
-

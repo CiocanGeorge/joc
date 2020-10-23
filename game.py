@@ -1,13 +1,7 @@
 #"Imports"
-import random
-
-import bullet
 import pygame
-import math
 from player import *
 from enemy import *
-from bullet import *
-
 
 pygame.init()
 
@@ -21,32 +15,13 @@ background = pygame.image.load("background.jpg")
 
 # titlu si logo
 pygame.display.set_caption("Invazia Spatiala")
-icon = pygame.image.load("icon.png")
-pygame.display.set_icon(icon)
-
-# Player
-playerImg = pygame.image.load("player.png")
+pygame.display.set_icon(pygame.image.load("icon.png"))
 
 #new player
-player1 = Player(390,480,playerImg,screen,pygame)
-
-#score
-score=0
-
-# inamic
-enemyImg = pygame.image.load("enemy.png")
-enemyX = random.randint(10, 780)
-enemyY = 50
-enemyX_change = 0.5
-enemyY_change = 25
-bullet_state = "ready"
-contor=0
-
+player1 = Player(390,480,screen,pygame)
 
 #new enemy
-enemyyy=50
-enemyxx=550
-enemy01 =  Enemy(enemyxx,enemyyy,enemyImg,screen,pygame)
+enemy01 =  Enemy(550,50,screen,pygame)
 
 screen_rect = screen.get_rect()
 # game loop
@@ -65,17 +40,9 @@ while runnig:
 
     player1.move(keys_pressed,screen_rect)
     player1.pewpew(keys_pressed )
-    #player1.collision(enemy01)
-    if player1.collision(enemy01) is True:
-        enemy01 = Enemy(enemyxx, enemyyy, enemyImg, screen, pygame)
-    enemy01.move()
 
-    #colision
-    #colision=isColision(enemyX,enemyY,bulletX,bulletY)
-    #if colision:
-    #    bullet_state="ready"
-    #    score+=1
-    #    enemyX = random.randint(10, 780)
+    enemy01.reset(player1.collision(enemy01))
+    enemy01.move()
 
     player1.draw()
     enemy01.draw()
