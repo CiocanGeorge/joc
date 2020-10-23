@@ -1,4 +1,5 @@
 from bullet import *
+from enemy import *
 class Player:
     def __init__(self,x,y,image,screen,pygame):
         self.image = image
@@ -52,4 +53,7 @@ class Player:
          for bull in self.bullets:
             if bull.state is "fire":
                 if bull.rect.collidepoint(enemy.rect.x,enemy.rect.y):
-                    print("headshot!!")
+                    bull.state="ready"
+                    return True
+                    #print("headshot!!")
+

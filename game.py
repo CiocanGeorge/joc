@@ -44,7 +44,9 @@ contor=0
 
 
 #new enemy
-enemy01 =  Enemy(550,50,enemyImg,screen,pygame)
+enemyyy=50
+enemyxx=550
+enemy01 =  Enemy(enemyxx,enemyyy,enemyImg,screen,pygame)
 
 screen_rect = screen.get_rect()
 # game loop
@@ -63,8 +65,9 @@ while runnig:
 
     player1.move(keys_pressed,screen_rect)
     player1.pewpew(keys_pressed )
-    player1.collision(enemy01)
-
+    #player1.collision(enemy01)
+    if player1.collision(enemy01) is True:
+        enemy01 = Enemy(enemyxx, enemyyy, enemyImg, screen, pygame)
     enemy01.move()
 
     #colision
