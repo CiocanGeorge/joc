@@ -13,6 +13,7 @@ class Player:
         self.reloading = False
         self.contor = 0
         self.score  = 0
+        self.IsOver=False
     def draw(self,myfont):
         self.screen.blit(self.image,(self.rect.x,self.rect.y))
         self.hitbox = (self.rect.x , self.rect.y , 64, 62)
@@ -60,6 +61,10 @@ class Player:
          for bull in self.bulletsTest:
             if bull.state == "fire":
                 if bull.rect.colliderect(enemy.rect):
-                    bull.state="ready"
+                    bull.state="gone"
                     self.score +=1
                     return True
+    def playerCollision(self,enemy):
+        if self.rect.colliderect(enemy.rect):
+            self.IsOver=True
+            return self.IsOver

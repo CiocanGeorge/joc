@@ -49,9 +49,17 @@ while runnig:
 
     player1.move(keys_pressed,screen_rect)
     player1.pewpew2(keys_pressed)
+    isrunnig=player1.playerCollision(enemy01)
+    if(isrunnig):
+        to_display = "Game Over"
+        textsurface = myfont.render(to_display, False, (255, 0, 0))
+        screen.blit(textsurface, (400, 300))
+
+
 
     enemy01.reset(player1.collision(enemy01))
     enemy01.move()
+
 
     player1.draw(myfont)
     enemy01.draw()

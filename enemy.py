@@ -1,18 +1,28 @@
-import math
+
+from EnemyBullet import *
 class Enemy:
     def __init__(self,x,y,screen,pygame):
         self.image = pygame.image.load("enemy.png")
         self.screen =  screen
         self.pygame = pygame
+        self.previous_time = pygame.time.get_ticks()
         self.rect =  pygame.Rect(x,y,33,30)
         self.hitbox = (self.rect.x, self.rect.y, 33, 30)
         self.enemyX_change = 1
         self.enemyY_change = 25
+        self.bulletE=EnemyBullet(self.rect.x,self.rect.y,self.screen,self.pygame)
     def draw(self):
         self.screen.blit(self.image,(self.rect.x,self.rect.y))
         self.hitbox = (self.rect.x, self.rect.y , 33, 30)
         self.rect =  self.pygame.Rect(self.rect.x, self.rect.y,33,30)
         self.pygame.draw.rect(self.screen, (255,0,0), self.hitbox,2)
+        #current_time = self.pygame.time.get_ticks()
+        #if (current_time - self.previous_time) > 1000 :
+        #self.bulletE.setBullet(self.rect.x, self.rect.y)
+        self.bulletE.draw()
+        self.bulletE.move(self.rect.x,self.rect.y)
+            #self.previous_time = current_time
+
     def move(self):
         if self.rect.x <= 0:
             self.rect.y += self.enemyY_change
