@@ -8,7 +8,7 @@ pygame.font.init()
 
 #score
 myfont = pygame.font.SysFont('Comic Sans MS', 16)
-textsurface = myfont.render('text', False, (255, 0, 0))
+
 
 
 # creare screen
@@ -37,6 +37,8 @@ while runnig:
     screen.fill((0, 0, 0))
     # background image
     screen.blit(background, (0, 0))
+    to_display = "SCORE: {}".format(player1.score)
+    textsurface = myfont.render(to_display, False, (255, 0, 0))
     screen.blit(textsurface, (0, 0))
 
     for event in pygame.event.get():
@@ -46,12 +48,12 @@ while runnig:
     keys_pressed = pygame.key.get_pressed()
 
     player1.move(keys_pressed,screen_rect)
-    player1.pewpew(keys_pressed )
+    player1.pewpew2(keys_pressed)
 
     enemy01.reset(player1.collision(enemy01))
     enemy01.move()
 
-    player1.draw()
+    player1.draw(myfont)
     enemy01.draw()
     pygame.display.flip()
     pygame.display.update()

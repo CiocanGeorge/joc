@@ -8,15 +8,16 @@ class Bullet:
         self.hitbox = (self.rect.x, self.rect.y, 33, 30)
         self.state = "ready"
     def draw(self):
-        self.screen.blit(self.image,(self.rect.x,self.rect.y))
-        self.hitbox = (self.rect.x, self.rect.y , 33, 30)
-        self.rect =  self.pygame.Rect(self.rect.x, self.rect.y,33,30)
-        self.pygame.draw.rect(self.screen, (255,0,0), self.hitbox,2)
+        if(self.state == "fire"):
+            self.screen.blit(self.image,(self.rect.x,self.rect.y))
+            self.hitbox = (self.rect.x, self.rect.y , 33, 30)
+            self.rect =  self.pygame.Rect(self.rect.x, self.rect.y,33,30)
+            self.pygame.draw.rect(self.screen, (255,0,0), self.hitbox,2)
     def move(self):
-        if self.state is "fire":
+        if self.state == "fire":
             self.rect.y  =  self.rect.y-3
             if self.rect.y < 10:
-                self.state = "ready"
+                self.state = "gone"
     def  setBullet(self,x,y):
         self.rect.x = x+18
         self.rect.y = y
