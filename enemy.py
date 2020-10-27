@@ -1,40 +1,46 @@
+"IMPORTS"
+from ebullet import Ebullet
 
-from EnemyBullet import *
+
 class Enemy:
-    def __init__(self,x,y,screen,pygame):
+    "Enemy class"
+
+    def __init__(self, x, y, screen, pygame):
         self.image = pygame.image.load("enemy.png")
-        self.screen =  screen
+        self.screen = screen
         self.pygame = pygame
         self.previous_time = pygame.time.get_ticks()
-        self.rect =  pygame.Rect(x,y,33,30)
+        self.rect = pygame.Rect(x, y, 33, 30)
         self.hitbox = (self.rect.x, self.rect.y, 33, 30)
-        self.enemyX_change = 1
-        self.enemyY_change = 25
-        self.bulletE=EnemyBullet(self.rect.x,self.rect.y,self.screen,self.pygame)
+        self.enemyx_change = 1
+        self.enemyy_change = 25
+        self.enemy_bullet = Ebullet(
+            self.rect.x, self.rect.y, self.screen, self.pygame)
+
     def draw(self):
-        self.screen.blit(self.image,(self.rect.x,self.rect.y))
-        self.hitbox = (self.rect.x, self.rect.y , 33, 30)
-        self.rect =  self.pygame.Rect(self.rect.x, self.rect.y,33,30)
-        self.pygame.draw.rect(self.screen, (255,0,0), self.hitbox,2)
-        #current_time = self.pygame.time.get_ticks()
-        #if (current_time - self.previous_time) > 1000 :
-        #self.bulletE.setBullet(self.rect.x, self.rect.y)
-        self.bulletE.draw()
-        self.bulletE.move(self.rect.x,self.rect.y)
-            #self.previous_time = current_time
+        "drawing method"
+        self.screen.blit(self.image, (self.rect.x, self.rect.y))
+        self.hitbox = (self.rect.x, self.rect.y, 33, 30)
+        self.rect = self.pygame.Rect(self.rect.x, self.rect.y, 33, 30)
+        self.pygame.draw.rect(self.screen, (255, 0, 0), self.hitbox, 2)
+        self.enemy_bullet.draw()
+        self.enemy_bullet.move(self.rect.x, self.rect.y)
 
     def move(self):
+        "moving method"
         if self.rect.x <= 0:
-            self.rect.y += self.enemyY_change
-            self.enemyX_change = 1
+            self.rect.y += self.enemyy_change
+            self.enemyx_change = 1
         elif self.rect.x >= 730:
-            self.rect.y += self.enemyY_change
-            self.enemyX_change = -1
-        self.rect.x += self.enemyX_change
-    def checkCollision(self,bulletX,bulletY):
-       return self.rect.collidedict(bulletX,bulletY)
+            self.rect.y += self.enemyy_change
+            self.enemyx_change = -1
+        self.rect.x += self.enemyx_change
 
-    def reset(self,isHit):
-        if isHit is True:
-            #enemy01 = Enemy(550, 50,  screen, pygame)
-            self.rect=self.pygame.Rect(550,50,33,30)
+    def check_collision(self, bullet_x, bullet_y):
+        "collision check method"
+        return self.rect.collidedict(bullet_x, bullet_y)
+
+    def reset(self, is_hit):
+        "enemy reset method"
+        if is_hit is True:
+            self.rect = self.pygame.Rect(550, 50, 33, 30)
