@@ -44,3 +44,6 @@ class Enemy:
         "enemy reset method"
         if is_hit is True:
             self.rect = self.pygame.Rect(550, 50, 33, 30)
+
+    def get_enemy_bullet_rect(self):
+        return self.enemy_bullet.rect

@@ -33,17 +33,26 @@ class Player:
                     textsurface = myfont.render(
                         'reloading!', False, (255, 0, 0))
                     self.screen.blit(textsurface, (self.rect.x, self.rect.y))
+        if self.is_over:
+            GAME_OVER = "Game Over"
+            gameover_surface = myfont.render(GAME_OVER, False, (255, 0, 0))
+            self.screen.blit(gameover_surface, (400, 300))
 
     def move(self, keys_pressed, screen_rect):
         "Player movement method"
-        if keys_pressed[self.pygame.K_LEFT]:
-            self.rect.x -= 5
-        if keys_pressed[self.pygame.K_RIGHT]:
-            self.rect.x += 5
-        if keys_pressed[self.pygame.K_UP]:
-            self.rect.y -= 5
-        if keys_pressed[self.pygame.K_DOWN]:
-            self.rect.y += 5
+        if not self.is_over:
+            if keys_pressed[self.pygame.K_LEFT]:
+                self.rect.x -= 5
+            if keys_pressed[self.pygame.K_RIGHT]:
+                self.rect.x += 5
+            if keys_pressed[self.pygame.K_UP]:
+                self.rect.y -= 5
+            if keys_pressed[self.pygame.K_DOWN]:
+                self.rect.y += 5
+        else:
+            self.rect.x = 390
+            self.rect.y = 480
+
         self.rect.clamp_ip(screen_rect)
 
     def pewpew2(self, keys_pressed):
@@ -55,7 +64,7 @@ class Player:
             self.contor = 0
         if (keys_pressed[self.pygame.K_SPACE] and
             (current_time - self.previous_time > 380) and
-                self.reloading is False):
+                self.reloading is False and not self.is_over):
             if self.contor < 10:
                 self.bullets.append(
                     Bullet(self.rect.x, self.rect.y, self.bullet_img, self.screen, self.pygame))
@@ -85,4 +94,7 @@ class Player:
         "Player collision with enemy method"
         if self.rect.colliderect(enemy.rect):
             self.is_over = True
-            return self.is_over
+
+    def check_enemy_bullet_collision(self, enemy_bullet):
+        if(enemy_bullet.colliderect(self.rect)):
+            self.is_over = True

@@ -48,10 +48,8 @@ while RUNNING:
 
     player1.move(keys_pressed, screen_rect)
     player1.pewpew2(keys_pressed)
-    if player1.player_collision(enemy01):
-        GAME_OVER = "Game Over"
-        gameover_surface = myfont.render(GAME_OVER, False, (255, 0, 0))
-        screen.blit(gameover_surface, (400, 300))
+    player1.player_collision(enemy01)
+    player1.check_enemy_bullet_collision(enemy01.get_enemy_bullet_rect())
 
     enemy01.reset(player1.bullet_collision(enemy01))
     enemy01.move()
