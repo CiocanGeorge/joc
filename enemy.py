@@ -16,6 +16,7 @@ class Enemy:
         self.enemyy_change = 25
         self.enemy_bullet = Ebullet(
             self.rect.x, self.rect.y, self.screen, self.pygame)
+        self.isgame_over = False
 
     def draw(self):
         "drawing method"
@@ -28,13 +29,17 @@ class Enemy:
 
     def move(self):
         "moving method"
-        if self.rect.x <= 0:
-            self.rect.y += self.enemyy_change
-            self.enemyx_change = 1
-        elif self.rect.x >= 730:
-            self.rect.y += self.enemyy_change
-            self.enemyx_change = -1
-        self.rect.x += self.enemyx_change
+        if not self.isgame_over:
+            if self.rect.x <= 0:
+                self.rect.y += self.enemyy_change
+                self.enemyx_change = 1
+            elif self.rect.x >= 730:
+                self.rect.y += self.enemyy_change
+                self.enemyx_change = -1
+            self.rect.x += self.enemyx_change
+        else:
+            self.rect.x = 550
+            self.rect.y = 50
 
     def check_collision(self, bullet_x, bullet_y):
         "collision check method"
@@ -47,3 +52,7 @@ class Enemy:
 
     def get_enemy_bullet_rect(self):
         return self.enemy_bullet.rect
+
+    def set_game_over(self, isgame_over):
+        self.isgame_over = isgame_over
+        self.enemy_bullet.isgame_over = isgame_over

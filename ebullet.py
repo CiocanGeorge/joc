@@ -11,6 +11,7 @@ class Ebullet:
         self.pygame = pygame
         self.rect = pygame.Rect(x, y, 38, 30)
         self.hitbox = (self.rect.x, self.rect.y, 38, 30)
+        self.isgame_over = False
 
     def draw(self):
         "Enemy Bullet Drawing Method"
@@ -21,10 +22,12 @@ class Ebullet:
 
     def move(self, enemy_x, enemy_y):
         "Enemy Bullet Movement Method"
-        self.rect.y = self.rect.y + 3
-        if self.rect.y >= 580:
-            self.rect.x = enemy_x
-            self.rect.y = enemy_y
+        if not self.isgame_over:
+            self.rect.y = self.rect.y + 3
+            if self.rect.y >= 580:
+                self.rect.x = enemy_x
+                self.rect.y = enemy_y
+        #else
 
     def check_collision(self, player1):
         "Collision Check Method"

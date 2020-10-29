@@ -34,8 +34,8 @@ class Player:
                         'reloading!', False, (255, 0, 0))
                     self.screen.blit(textsurface, (self.rect.x, self.rect.y))
         if self.is_over:
-            GAME_OVER = "Game Over"
-            gameover_surface = myfont.render(GAME_OVER, False, (255, 0, 0))
+            game_over = "Game Over"
+            gameover_surface = myfont.render(game_over, False, (255, 0, 0))
             self.screen.blit(gameover_surface, (400, 300))
 
     def move(self, keys_pressed, screen_rect):
@@ -96,5 +96,9 @@ class Player:
             self.is_over = True
 
     def check_enemy_bullet_collision(self, enemy_bullet):
-        if(enemy_bullet.colliderect(self.rect)):
+        "Check enemy bullet collision with player method"
+        if enemy_bullet.colliderect(self.rect):
             self.is_over = True
+
+    def return_isOver(self):
+        return self.is_over

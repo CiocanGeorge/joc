@@ -22,6 +22,10 @@ background = pygame.image.load("background.jpg")
 pygame.display.set_caption("Invazia Spatiala")
 pygame.display.set_icon(pygame.image.load("icon.png"))
 
+# TEST MENU
+# menu = pygameMenu.Menu(300, 400, 'Welcome',
+#                      theme=pygameMenu.themes.THEME_BLUE)
+
 # new player
 player1 = Player(390, 480, screen, pygame)
 
@@ -40,6 +44,8 @@ while RUNNING:
     textsurface = myfont.render(SCORE_DISPLAY, False, (255, 0, 0))
     screen.blit(textsurface, (0, 0))
 
+    # TESTING
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             RUNNING = False
@@ -50,6 +56,7 @@ while RUNNING:
     player1.pewpew2(keys_pressed)
     player1.player_collision(enemy01)
     player1.check_enemy_bullet_collision(enemy01.get_enemy_bullet_rect())
+    enemy01.set_game_over(player1.return_isOver())
 
     enemy01.reset(player1.bullet_collision(enemy01))
     enemy01.move()
